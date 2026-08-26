@@ -1,0 +1,188 @@
+---
+company: Acme Corp
+department: finance
+policy_id: ACM-POL-FIN-004
+visibility: PUBLIC_INTERNAL
+allowed_groups: []
+version: 1.0
+synthetic: true
+---
+
+<!-- SYNTHETIC DOCUMENT FOR KNOWLEDGEOPS DEMO ONLY -->
+<!-- visibility: PUBLIC_INTERNAL | allowed_groups: [] -->
+
+# Corporate Card Policy
+
+**Policy ID:** ACM-POL-FIN-004
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-FIN-004 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Personal use of card ACM-CARD-CORP is prohibited.
+
+Owners must review Corporate Card Policy annually. Version history is stored in PolicyHub.

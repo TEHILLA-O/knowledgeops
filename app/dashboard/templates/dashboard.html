@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - KnowledgeOps{% endblock %}
+{% block content %}
+<h1>KnowledgeOps Dashboard</h1>
+<p class="subtitle">RAG platform metrics, ingestion status, and knowledge gaps</p>
+
+<div class="grid">
+    <div class="card">
+        <div class="label">Documents Indexed</div>
+        <div class="value">{{ analytics.documents_indexed }}</div>
+    </div>
+    <div class="card">
+        <div class="label">Chunks Indexed</div>
+        <div class="value">{{ analytics.chunks_indexed }}</div>
+    </div>
+    <div class="card">
+        <div class="label">Queries Today</div>
+        <div class="value">{{ analytics.queries_today }}</div>
+    </div>
+    <div class="card">
+        <div class="label">Answered %</div>
+        <div class="value small">{{ analytics.answered_percentage }}%</div>
+    </div>
+    <div class="card">
+        <div class="label">Insufficient Evidence %</div>
+        <div class="value small">{{ analytics.insufficient_evidence_percentage }}%</div>
+    </div>
+    <div class="card">
+        <div class="label">Avg Retrieval Latency</div>
+        <div class="value small">{{ analytics.average_retrieval_latency_ms }}ms</div>
+    </div>
+    <div class="card">
+        <div class="label">Knowledge Gaps</div>
+        <div class="value">{{ analytics.knowledge_gaps_count }}</div>
+    </div>
+    <div class="card">
+        <div class="label">Latest Eval Score</div>
+        <div class="value small">
+            {% if analytics.latest_evaluation_score is not none %}
+                {{ "%.3f"|format(analytics.latest_evaluation_score) }}
+            {% else %}
+                N/A
+            {% endif %}
+        </div>
+    </div>
+    <div class="card">
+        <div class="label">Index Health</div>
+        <div class="value small">{{ analytics.index_health or 'UNKNOWN' }}</div>
+    </div>
+</div>
+
+<h2>Recent Queries</h2>
+{% if recent_queries %}
+<table>
+    <thead>
+        <tr>
+            <th>Query</th>
+            <th>Status</th>
+            <th>Latency</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for q in recent_queries %}
+        <tr>
+            <td>{{ q.query_text[:80] }}{% if q.query_text|length > 80 %}...{% endif %}</td>
+            <td>
+                {% if q.status == 'ANSWERED' %}
+                <span class="badge badge-success">{{ q.status }}</span>
+                {% elif q.status == 'INSUFFICIENT_EVIDENCE' %}
+                <span class="badge badge-warning">{{ q.status }}</span>
+                {% else %}
+                <span class="badge badge-danger">{{ q.status }}</span>
+                {% endif %}
+            </td>
+            <td>{{ q.total_latency_ms or '-' }}ms</td>
+            <td>{{ q.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">No queries recorded yet.</p>
+{% endif %}
+
+<h2>Knowledge Gaps</h2>
+{% if knowledge_gaps %}
+<table>
+    <thead>
+        <tr>
+            <th>Question</th>
+            <th>Frequency</th>
+            <th>Best Score</th>
+            <th>Status</th>
+            <th>Last Seen</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for g in knowledge_gaps %}
+        <tr>
+            <td>{{ g.question[:100] }}{% if g.question|length > 100 %}...{% endif %}</td>
+            <td>{{ g.frequency }}</td>
+            <td>{{ "%.3f"|format(g.best_retrieval_score) if g.best_retrieval_score is not none else '-' }}</td>
+            <td><span class="badge badge-warning">{{ g.status }}</span></td>
+            <td>{{ g.last_seen_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">No knowledge gaps detected.</p>
+{% endif %}
+
+<h2>Recent Ingestion Runs</h2>
+{% if ingestion_runs %}
+<table>
+    <thead>
+        <tr>
+            <th>Source</th>
+            <th>Status</th>
+            <th>Discovered</th>
+            <th>Indexed</th>
+            <th>Health</th>
+            <th>Started</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in ingestion_runs %}
+        <tr>
+            <td>{{ r.source }}</td>
+            <td>
+                {% if r.status == 'COMPLETED' %}
+                <span class="badge badge-success">{{ r.status }}</span>
+                {% elif r.status == 'RUNNING' %}
+                <span class="badge badge-info">{{ r.status }}</span>
+                {% else %}
+                <span class="badge badge-danger">{{ r.status }}</span>
+                {% endif %}
+            </td>
+            <td>{{ r.documents_discovered }}</td>
+            <td>{{ r.chunks_indexed }}</td>
+            <td>{{ r.health_status or '-' }}</td>
+            <td>{{ r.started_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">No ingestion runs yet.</p>
+{% endif %}
+
+<h2>Recent Documents</h2>
+{% if documents %}
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th>Chunks</th>
+            <th>Last Indexed</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in documents %}
+        <tr>
+            <td>{{ d.title }}</td>
+            <td>{{ d.source }}</td>
+            <td><span class="badge badge-info">{{ d.status }}</span></td>
+            <td>{{ d.chunk_count }}</td>
+            <td>{{ d.last_indexed_at.strftime('%Y-%m-%d %H:%M') if d.last_indexed_at else '-' }}</td>
+            <td><a href="/dashboard/documents/{{ d.id }}" class="btn" style="padding:0.3rem 0.6rem;font-size:0.8rem;">View</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">No documents indexed yet.</p>
+{% endif %}
+{% endblock %}

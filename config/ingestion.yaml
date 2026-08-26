@@ -1,0 +1,26 @@
+ingestion:
+  chunk_strategy: sentence_aware
+  chunk_size: 512
+  chunk_overlap: 64
+  min_chunk_length: 100
+  max_chunk_length: 1024
+  preserve_headings: true
+  batch_size: 32
+  max_file_size_mb: 50
+  supported_extensions:
+    - .pdf
+    - .docx
+    - .md
+    - .txt
+    - .html
+
+sources:
+  demo:
+    enabled: true
+    path: demo_knowledge
+  local_folder:
+    enabled: false
+    path: data/documents
+  web:
+    enabled: false
+    urls: []

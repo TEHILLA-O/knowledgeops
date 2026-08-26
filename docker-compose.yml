@@ -1,0 +1,54 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://knowledgeops:knowledgeops@postgres:5432/knowledgeops
+      QDRANT_URL: http://qdrant:6333
+      QDRANT_COLLECTION: knowledgeops_chunks
+      GENERATION_PROVIDER: mock
+      EMBEDDING_PROVIDER: local
+      APP_ENV: production
+      LOG_LEVEL: INFO
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    volumes:
+      - ./demo_knowledge:/app/demo_knowledge
+      - ./config:/app/config:ro
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "15432:5432"
+    environment:
+      POSTGRES_USER: knowledgeops
+      POSTGRES_PASSWORD: knowledgeops
+      POSTGRES_DB: knowledgeops
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U knowledgeops -d knowledgeops"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:v1.12.5
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  qdrant_data:

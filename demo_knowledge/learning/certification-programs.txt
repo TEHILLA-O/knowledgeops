@@ -1,0 +1,204 @@
+---
+company: Acme Corp
+department: learning
+policy_id: ACM-POL-LRN-003
+visibility: PUBLIC_INTERNAL
+allowed_groups: []
+version: 1.0
+synthetic: true
+---
+
+<!-- SYNTHETIC DOCUMENT FOR KNOWLEDGEOPS DEMO ONLY -->
+<!-- visibility: PUBLIC_INTERNAL | allowed_groups: [] -->
+
+# Certification Programs
+
+**Policy ID:** ACM-POL-LRN-003
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-LRN-003 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+Subsidized certs: AWS-SAA, GCP-PCA, CKA.
+
+Owners must review Certification Programs annually. Version history is stored in PolicyHub.

@@ -1,0 +1,190 @@
+---
+company: Acme Corp
+department: engineering
+policy_id: ACM-POL-ENG-005
+visibility: PUBLIC_INTERNAL
+allowed_groups: []
+version: 1.0
+synthetic: true
+---
+
+<!-- SYNTHETIC DOCUMENT FOR KNOWLEDGEOPS DEMO ONLY -->
+<!-- visibility: PUBLIC_INTERNAL | allowed_groups: [] -->
+
+# Engineering On-Call Runbook
+
+**Policy ID:** ACM-POL-ENG-005
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.
+
+Synthetic example content for KnowledgeOps RAG demonstration purposes only.
+
+P1 incidents page primary on-call via PagerDuty service ACM-PD-ENG.
+
+Owners must review Engineering On-Call Runbook annually. Version history is stored in PolicyHub.
+
+Employees acknowledge policy ACM-POL-ENG-005 during onboarding.

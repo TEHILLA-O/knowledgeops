@@ -1,0 +1,23 @@
+retrieval:
+  dense_top_k: 20
+  sparse_top_k: 20
+  fusion_top_k: 30
+  rerank_top_k: 8
+  context_top_k: 5
+  max_context_tokens: 4000
+  hybrid_alpha: 0.5
+  min_rerank_score: 0.1
+  min_confidence_score: 0.35
+  enable_reranking: true
+  enable_hybrid: true
+  source_diversity: true
+
+confidence:
+  high_threshold: 0.75
+  medium_threshold: 0.5
+  insufficient_threshold: 0.35
+
+quality_gates:
+  hit_rate_at_5_min: 0.6
+  mrr_min: 0.5
+  regression_tolerance: 0.05

@@ -1,0 +1,24 @@
+{
+  "name": "baseline_metrics",
+  "description": "Baseline retrieval metrics for main_eval regression testing",
+  "dataset": "main_eval",
+  "run_id": "baseline-main-eval-2026-08-26",
+  "created_at": "2026-08-26T12:00:00Z",
+  "question_count": 60,
+  "top_k": 5,
+  "metrics": {
+    "mrr": 0.625,
+    "hit_rate_at_5": 0.633,
+    "precision_at_5": 0.573,
+    "recall_at_5": 0.633,
+    "ndcg_at_5": 0.702
+  },
+  "quality_gates": {
+    "hit_rate_at_5_min": 0.6,
+    "mrr_min": 0.5,
+    "regression_tolerance": 0.05,
+    "passed": true
+  },
+  "per_query": [],
+  "notes": "Aggregated metrics from main_eval evaluation run (60 questions, top_k=5). Use for regression comparison via app.evaluation.regression."
+}

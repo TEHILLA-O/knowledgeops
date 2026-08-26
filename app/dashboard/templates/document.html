@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}{{ document.title }} - KnowledgeOps{% endblock %}
+{% block content %}
+<p style="margin-bottom:1rem;"><a href="/dashboard" style="color:var(--accent);">&larr; Back to Dashboard</a></p>
+
+<h1>{{ document.title }}</h1>
+<p class="subtitle">{{ document.filename }} &middot; {{ document.source }}</p>
+
+<div class="grid">
+    <div class="card">
+        <div class="label">Status</div>
+        <div class="value small">{{ document.status }}</div>
+    </div>
+    <div class="card">
+        <div class="label">Version</div>
+        <div class="value small">{{ document.current_version }}</div>
+    </div>
+    <div class="card">
+        <div class="label">Chunks</div>
+        <div class="value small">{{ document.chunk_count }}</div>
+    </div>
+    <div class="card">
+        <div class="label">Department</div>
+        <div class="value small">{{ document.department or 'N/A' }}</div>
+    </div>
+</div>
+
+<h2>Document Details</h2>
+<table>
+    <tbody>
+        <tr><th>Stable ID</th><td>{{ document.stable_id }}</td></tr>
+        <tr><th>Type</th><td>{{ document.document_type }}</td></tr>
+        <tr><th>Classification</th><td>{{ document.classification or '-' }}</td></tr>
+        <tr><th>Visibility</th><td>{{ document.visibility }}</td></tr>
+        <tr><th>Content Hash</th><td style="font-family:monospace;font-size:0.8rem;">{{ document.content_hash or '-' }}</td></tr>
+        <tr><th>Last Indexed</th><td>{{ document.last_indexed_at.strftime('%Y-%m-%d %H:%M:%S') if document.last_indexed_at else '-' }}</td></tr>
+        <tr><th>Created</th><td>{{ document.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td></tr>
+        <tr><th>Updated</th><td>{{ document.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</td></tr>
+    </tbody>
+</table>
+
+<h2>Versions</h2>
+{% if versions %}
+<table>
+    <thead>
+        <tr>
+            <th>Version</th>
+            <th>Status</th>
+            <th>Content Hash</th>
+            <th>Discovered</th>
+            <th>Indexed</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for v in versions %}
+        <tr>
+            <td>{{ v.version }}</td>
+            <td><span class="badge badge-info">{{ v.status }}</span></td>
+            <td style="font-family:monospace;font-size:0.8rem;">{{ v.content_hash[:16] }}...</td>
+            <td>{{ v.discovered_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ v.indexed_at.strftime('%Y-%m-%d %H:%M') if v.indexed_at else '-' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">No versions recorded.</p>
+{% endif %}
+
+<h2>Chunks ({{ chunks|length }})</h2>
+{% for chunk in chunks[:20] %}
+<div class="chunk-card">
+    <div class="meta">
+        Chunk #{{ chunk.chunk_index }}
+        {% if chunk.section %} &middot; {{ chunk.section }}{% endif %}
+        {% if chunk.page_number %} &middot; p.{{ chunk.page_number }}{% endif %}
+        &middot; {{ chunk.token_count }} tokens
+    </div>
+    <div class="content">{{ chunk.content[:400] }}{% if chunk.content|length > 400 %}...{% endif %}</div>
+</div>
+{% endfor %}
+{% if chunks|length > 20 %}
+<p class="empty">Showing first 20 of {{ chunks|length }} chunks.</p>
+{% endif %}
+{% endblock %}

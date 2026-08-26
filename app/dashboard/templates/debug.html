@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Retrieval Debug - KnowledgeOps{% endblock %}
+{% block content %}
+<h1>Retrieval Debugger</h1>
+<p class="subtitle">Test queries and inspect retrieved chunks with scores</p>
+
+<form method="post" action="/dashboard/debug">
+    <div class="form-row">
+        <input type="text" name="query" placeholder="Enter a search query..." value="{{ query_text or '' }}" required>
+        <input type="number" name="top_k" value="{{ top_k or 10 }}" min="1" max="50" style="width:80px;">
+        <button type="submit">Search</button>
+    </div>
+</form>
+
+{% if error %}
+<div class="card" style="border-color:var(--danger);margin-bottom:1rem;">
+    <strong style="color:var(--danger);">Error:</strong> {{ error }}
+</div>
+{% endif %}
+
+{% if results is not none %}
+<p style="color:var(--muted);margin-bottom:1rem;">
+    Found {{ results|length }} results in {{ latency_ms }}ms
+</p>
+
+{% for chunk in results %}
+<div class="chunk-card">
+    <div class="score">
+        Score: {{ "%.4f"|format(chunk.fusion_score or chunk.dense_score or 0) }}
+        {% if chunk.rerank_score %} | Rerank: {{ "%.4f"|format(chunk.rerank_score) }}{% endif %}
+    </div>
+    <div class="meta">
+        {{ chunk.document_title }} (v{{ chunk.document_version }})
+        {% if chunk.section %} &middot; {{ chunk.section }}{% endif %}
+        {% if chunk.page_number %} &middot; p.{{ chunk.page_number }}{% endif %}
+    </div>
+    <div class="content">{{ chunk.content[:600] }}{% if chunk.content|length > 600 %}...{% endif %}</div>
+</div>
+{% endfor %}
+
+{% if results|length == 0 %}
+<p class="empty">No chunks retrieved for this query.</p>
+{% endif %}
+{% endif %}
+{% endblock %}

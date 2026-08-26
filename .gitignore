@@ -1,0 +1,68 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+credentials.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Build / distribution
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# Logs and local data
+*.log
+logs/
+data/
+evals/results/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker volumes (local)
+postgres_data/
+qdrant_data/
+
+# Model caches (downloaded at runtime)
+.cache/
+models/
+
+# Prefect
+.prefect/
+
+# SQLite test databases
+*.db
+*.sqlite3
