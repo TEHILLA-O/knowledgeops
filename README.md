@@ -2,6 +2,8 @@
 
 Self-maintaining RAG knowledge automation platform with hybrid retrieval, incremental ingestion, evaluation, and knowledge-gap tracking.
 
+See [FAILURES.md](./FAILURES.md) for what can go wrong, what broke, how it was fixed, and results.
+
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![Tests](https://img.shields.io/badge/tests-49%20passed-brightgreen.svg)](BUILD_REPORT.md)
 [![Coverage](https://img.shields.io/badge/coverage-72%25-yellowgreen.svg)](BUILD_REPORT.md)
