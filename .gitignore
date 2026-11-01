@@ -58,7 +58,7 @@ qdrant_data/
 
 # Model caches (downloaded at runtime)
 .cache/
-models/
+/models/
 
 # Prefect
 .prefect/
