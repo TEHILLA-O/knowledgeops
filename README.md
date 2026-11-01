@@ -1,368 +1,105 @@
-# KnowledgeOps RAG Automation Platform
+# KnowledgeOps
 
-Self-maintaining RAG knowledge automation platform with hybrid retrieval, incremental ingestion, evaluation, and knowledge-gap tracking.
+KnowledgeOps keeps an internal RAG knowledge base fresh. It finds documents, re-embeds only what changed, answers questions with hybrid search and citations, refuses when the evidence is thin, and logs every unanswered question as a knowledge gap. It is for teams whose policies and runbooks change often and who are tired of chatbots that go stale or make things up.
 
-See [FAILURES.md](./FAILURES.md) for what can go wrong, what broke, how it was fixed, and results.
+> **Heads up (checked 1 Nov 2026):** the `app/db/models` package is missing from this repository. The `.gitignore` rule `models/` (meant for downloaded model weights) also matched `app/db/models/`, so the database models never got committed. Every test, the CLI ingest and the API need that package, so a fresh clone cannot run end to end until it is restored. The `.gitignore` rule is now fixed so it only ignores the top level `models/` folder. See [Status](#status).
 
-[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
-[![Tests](https://img.shields.io/badge/tests-49%20passed-brightgreen.svg)](BUILD_REPORT.md)
-[![Coverage](https://img.shields.io/badge/coverage-72%25-yellowgreen.svg)](BUILD_REPORT.md)
+## What it does
 
----
+- **Incremental ingestion.** Content hashes mark each document NEW, UNCHANGED, MODIFIED or DELETED, so only changed documents are re-chunked and re-embedded.
+- **Version history.** Every change creates a new document version, and citations carry the version they came from.
+- **Hybrid retrieval.** Dense search in Qdrant plus BM25 keyword search, fused and then reranked by a local cross encoder.
+- **Permission filtering.** Chunks carry `allowed_groups`, and anything the user's group cannot see is removed before it reaches the generator.
+- **Grounded answers.** Answers are built only from retrieved evidence, with citations and a confidence score worked out from retrieval signals.
+- **Knowledge gaps.** When confidence is too low, the question is stored with its best score and how often it is asked, so content owners know what to write next.
+- **Evaluation.** A 60 question benchmark (`evals/datasets/main_eval.json`) with saved baselines and quality gates.
+- **Interfaces.** FastAPI REST API, a small Jinja dashboard and a Typer CLI. Ingestion can also run as a Prefect flow with retries.
 
-## Overview
+Formats: PDF, DOCX, Markdown, TXT and HTML. Embeddings use `sentence-transformers/all-MiniLM-L6-v2` locally, so no paid API is needed. Generation defaults to a mock provider; an Ollama provider is included for a real local LLM.
 
-KnowledgeOps automates the full lifecycle of an internal knowledge base. It discovers documents from configurable sources, detects changes via content hashing, chunks and embeds only what changed, indexes vectors in Qdrant, and serves grounded answers through a hybrid retrieval pipeline with citations, confidence scoring, and permission filtering.
-
-When the system cannot answer a question, it records a **knowledge gap** — turning failed searches into actionable content priorities.
-
----
-
-## The Problem
-
-Enterprise knowledge is scattered across policies, runbooks, and guidelines that change frequently. Employees ask the same questions repeatedly. Static chatbots go stale. Manual RAG pipelines waste compute re-embedding unchanged documents. Ungoverned retrieval risks leaking restricted content.
-
----
-
-## The Solution
-
-KnowledgeOps provides:
-
-- **Incremental ingestion** — content-hash change detection skips unchanged documents
-- **Document versioning** — full version history with audit trail
-- **Hybrid retrieval** — dense semantic + BM25 lexical search with reranking
-- **Grounded generation** — evidence-only answers with citations
-- **Knowledge-gap automation** — systematic tracking of unanswered questions
-- **Deterministic evaluation** — 60-question benchmark with regression baselines
-- **Permission filtering** — department-scoped retrieval before generation
-
----
-
-## Why This Is More Than a Chatbot
-
-| Chatbot tutorial | KnowledgeOps |
-|---|---|
-| Upload PDF, ask questions | Automated discovery from multiple sources |
-| Re-index everything each run | Change detection: 40 unchanged, 0 re-indexed |
-| Vector search only | Hybrid dense + BM25 + reranking |
-| No citations | Structured citations with version metadata |
-| Guesses when unsure | Refuses + creates knowledge-gap records |
-| No evaluation | `main_eval` with MRR 0.625, NDCG@5 0.702 |
-| No access control | Permission filtering by user group |
-
----
-
-## Features
-
-- Multi-format parsing (PDF, DOCX, Markdown, TXT, HTML)
-- Sentence-aware chunking with heading preservation
-- Local embeddings via `sentence-transformers/all-MiniLM-L6-v2`
-- Qdrant vector store with metadata payload filtering
-- Cross-encoder reranking
-- Transparent confidence scoring from retrieval signals
-- FastAPI REST API + web dashboard
-- Typer CLI with Rich terminal output
-- Prefect ingestion workflow with retries
-- Docker Compose local stack
-- GitHub Actions CI (no paid API keys required)
-
----
-
-## Architecture
+## How it works
 
 ```mermaid
-flowchart TB
-    subgraph Sources["Document Sources"]
-        DEMO["demo_knowledge/"]
-        LOCAL["Local Folder"]
-        WEB["Web Pages"]
-    end
-
-    subgraph Ingestion["Ingestion Pipeline"]
-        DISC[Discover]
-        CHANGE[Change Detection]
-        PARSE[Parse & Clean]
-        CHUNK[Chunk]
-        EMBED[Embed]
-        INDEX[Index]
-    end
-
-    subgraph Storage["Data Stores"]
-        PG[("PostgreSQL<br/>:15432")]
-        QD[("Qdrant<br/>:6333")]
-    end
-
-    subgraph Retrieval["Hybrid Retrieval"]
-        DENSE[Dense Search]
-        SPARSE[BM25 Sparse]
-        FUSE[Score Fusion]
-        RERANK[Reranker]
-        PERM[Permission Filter]
-    end
-
-    subgraph Serving["Query Serving"]
-        CTX[Context Builder]
-        GEN[Grounded Generation]
-        CITE[Citations]
-        CONF[Confidence]
-        GAP[Knowledge Gaps]
-    end
-
-    subgraph Interface["Interfaces"]
-        API[FastAPI :8000]
-        CLI[knowledgeops CLI]
-        DASH[Dashboard]
-    end
-
-    DEMO --> DISC
-    LOCAL --> DISC
-    WEB --> DISC
-    DISC --> CHANGE --> PARSE --> CHUNK --> EMBED --> INDEX
-    INDEX --> PG
-    INDEX --> QD
-
-    API --> DENSE
-    CLI --> API
-    DASH --> API
-    DENSE --> FUSE
-    SPARSE --> FUSE
-    QD --> DENSE
-    PG --> SPARSE
-    FUSE --> RERANK --> PERM --> CTX --> GEN
-    GEN --> CITE
-    GEN --> CONF
-    GEN --> GAP
-    GAP --> PG
+flowchart LR
+    SRC[Demo folder, local folder, web pages] --> CD[Change detection]
+    CD --> P[Parse and clean]
+    P --> CH[Chunk]
+    CH --> E[Embed]
+    E --> QD[(Qdrant vectors)]
+    E --> PG[(PostgreSQL metadata and versions)]
+    Q[Question] --> H[Dense + BM25 fusion]
+    QD --> H
+    PG --> H
+    H --> RR[Rerank]
+    RR --> PF[Permission filter]
+    PF --> G[Grounded answer, citations, confidence]
+    G -->|low confidence| KG[Knowledge gap record]
 ```
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed flow diagrams.
+Retrieval settings live in `config/retrieval.yaml`: 20 dense and 20 BM25 candidates, 30 after fusion (alpha 0.5), 8 after reranking, 5 passed to the generator. Answers below a confidence of 0.35 are refused and logged as gaps.
 
----
+Diagrams of every flow are in [ARCHITECTURE.md](ARCHITECTURE.md). Design decisions are recorded in [docs/decisions](docs/decisions):
 
-## Automated Knowledge Lifecycle
+| ADR | Topic |
+| --- | --- |
+| [001](docs/decisions/001-qdrant-vector-store.md) | Qdrant as the vector store |
+| [002](docs/decisions/002-hybrid-retrieval.md) | Hybrid dense and sparse retrieval |
+| [003](docs/decisions/003-provider-abstraction.md) | Provider abstraction |
+| [004](docs/decisions/004-document-versioning.md) | Content hash versioning |
+| [005](docs/decisions/005-rag-quality-gates.md) | RAG quality gates |
+| [006](docs/decisions/006-permission-filtering.md) | Permission filtering |
 
-```mermaid
-stateDiagram-v2
-    [*] --> Discovered
-    Discovered --> Indexed: NEW
-    Discovered --> Skipped: UNCHANGED
-    Discovered --> ReIndexed: MODIFIED
-    Indexed --> ReIndexed: content hash changed
-    Indexed --> Removed: DELETED
-    ReIndexed --> Indexed
-    Skipped --> Discovered: next run
-    Removed --> [*]
-```
+## Quick start
 
----
-
-## RAG Pipeline
-
-1. **Discover** documents from configured sources
-2. **Detect changes** via content hash (NEW / UNCHANGED / MODIFIED / DELETED)
-3. **Parse** with format-specific parsers (PDF, DOCX, MD, TXT, HTML)
-4. **Clean** text deterministically (whitespace, boilerplate, encoding)
-5. **Chunk** with sentence-aware strategy (512 tokens, 64 overlap)
-6. **Embed** in batches of 32 (skip unchanged chunk hashes)
-7. **Index** vectors in Qdrant + metadata in PostgreSQL
-8. **Retrieve** with hybrid dense + BM25 fusion
-9. **Rerank** with cross-encoder
-10. **Filter** by user group permissions
-11. **Generate** grounded answer with citations
-12. **Score** confidence from retrieval signals
-13. **Record** knowledge gaps when evidence is insufficient
-
----
-
-## Hybrid Retrieval
-
-| Stage | Configuration |
-|---|---|
-| Dense top-k | 20 (Qdrant cosine) |
-| Sparse top-k | 20 (BM25) |
-| Fusion alpha | 0.5 |
-| Rerank top-k | 8 |
-| Context top-k | 5 |
-
-Measured retrieval quality on `main_eval` (60 questions, k=5):
-
-| Metric | Value |
-|---|---|
-| MRR | 0.625 |
-| Hit Rate @ 5 | 0.633 |
-| Precision @ 5 | 0.573 |
-| Recall @ 5 | 0.633 |
-| NDCG @ 5 | 0.702 |
-
----
-
-## Reranking
-
-Retrieval casts a wide net (top 30 fused candidates); a local cross-encoder reranker narrows to the top 8 before context construction. Both retrieval and rerank scores are exposed in debug output.
-
----
-
-## Document Versioning
-
-Every document maintains a version chain in PostgreSQL:
-
-- Content hash triggers new version on modification
-- Previous version linked for audit trail
-- API: `GET /api/v1/documents/{id}/versions`
-- Citations include document version for traceability
-
----
-
-## Knowledge Gap Detection
-
-When retrieval confidence falls below threshold or the generator reports insufficient evidence, KnowledgeOps creates a knowledge-gap record with the question, timestamp, best retrieval score, and frequency count. Gaps are queryable via API and visible on the dashboard.
-
----
-
-## Evaluation
+You need Python 3.12 or newer, plus Docker for PostgreSQL and Qdrant. **This will not work on a fresh clone until `app/db/models` is restored** (see the note at the top).
 
 ```bash
-make evaluate
-# or
-knowledgeops evaluate --dataset main_eval --top-k 5
-```
-
-- **Dataset:** `evals/datasets/main_eval.json` (60 questions)
-- **Baseline:** `evals/datasets/baseline_metrics.json`
-- **Quality gates:** Hit Rate @ 5 ≥ 0.6, MRR ≥ 0.5 (both pass)
-- **Regression tolerance:** 0.05
-
----
-
-## Security
-
-Permission filtering, grounding enforcement, confidence gating, and secrets management are documented in [SECURITY.md](SECURITY.md).
-
-Key points:
-
-- Chunks carry `allowed_groups` metadata
-- `PermissionFilter` runs before context reaches the LLM
-- Default demo has no API authentication — not production-ready
-- PostgreSQL exposed on port **15432** (non-default) for local dev only
-
----
-
-## Quick Start
-
-### Prerequisites
-
-- Python 3.12+
-- Docker and Docker Compose (for PostgreSQL + Qdrant)
-
-### 1. Clone and install
-
-```bash
-git clone <repository-url>
-cd knowledgeops-rag-platform
+git clone https://github.com/TEHILLA-O/knowledgeops.git
+cd knowledgeops
+python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 cp .env.example .env
-```
 
-### 2. Start infrastructure
-
-```bash
-docker compose up -d postgres qdrant
-```
-
-PostgreSQL is available at `localhost:15432`. Qdrant at `localhost:6333`.
-
-### 3. Initialise and ingest
-
-```bash
-make setup        # prepare demo knowledge base
-make migrate      # run Alembic migrations
+docker compose up -d postgres qdrant   # PostgreSQL on localhost:15432, Qdrant on localhost:6333
+make setup                             # prepares the demo knowledge base
+make migrate                           # Alembic migrations
 knowledgeops ingest --source demo
+knowledgeops api                       # API docs at http://localhost:8000/docs, dashboard at /dashboard
 ```
 
-### 4. Start the API
+What was verified on 1 Nov 2026 (Linux, Python 3.12): `pip install -e ".[dev]"` succeeds and `knowledgeops --help` lists all commands. Nothing past that could run because of the missing models package, and Docker was not available on the test machine.
+
+The full stack (app, PostgreSQL, Qdrant) is `docker compose up -d`. PostgreSQL uses port 15432 on purpose so it does not clash with a local install.
+
+## Usage
 
 ```bash
+knowledgeops demo                            # 20 step case study walkthrough
+knowledgeops ingest --source demo
+knowledgeops query "What is the VPN policy?"
+knowledgeops search "leave policy"           # retrieval only
+knowledgeops documents
+knowledgeops gaps
+knowledgeops evaluate --dataset main_eval --top-k 5
+knowledgeops benchmark
+knowledgeops status
 knowledgeops api
-# OpenAPI docs: http://localhost:8000/docs
-# Dashboard:    http://localhost:8000/dashboard
 ```
 
-### Full Docker stack
+API (base `http://localhost:8000/api/v1`):
 
-```bash
-docker compose up -d
-# API available at http://localhost:8000
-```
-
----
-
-## Demo
-
-Run the 20-step case-study demonstration:
-
-```bash
-make demo
-# or
-knowledgeops demo
-```
-
-### Measured Demo Results
-
-**Ingestion**
-
-| Metric | Value |
-|---|---|
-| Documents discovered | 40 |
-| Chunks indexed (first run) | 662 |
-| Documents unchanged (second run) | 40 |
-| Chunks re-indexed (second run) | 0 |
-
-**Retrieval Quality** (`main_eval`, 60 questions)
-
-| Metric | Value |
-|---|---|
-| MRR | 0.625 |
-| Hit Rate @ 5 | 0.633 |
-| Precision @ 5 | 0.573 |
-| Recall @ 5 | 0.633 |
-| NDCG @ 5 | 0.702 |
-
-**Performance** (3-iteration benchmark)
-
-| Stage | Mean |
-|---|---|
-| Ingestion (unchanged docs) | 0.234 s |
-| Embedding batch | 0.027 s |
-| Hybrid retrieval | 1099 ms |
-| Full query | 1599 ms |
-
-**Verified Scenarios**
-
-- ✅ Document version change → selective re-index
-- ✅ Document deletion → Qdrant sync
-- ✅ Unsupported question → knowledge gap created
-- ✅ Permission filtering → group-scoped retrieval
-
----
-
-## API
-
-Base URL: `http://localhost:8000/api/v1`
-
-| Endpoint | Method | Description |
-|---|---|---|
-| `/query` | POST | Grounded question answering |
-| `/search` | POST | Retrieval-only search |
-| `/documents` | GET | List indexed documents |
+| Endpoint | Method | What it does |
+| --- | --- | --- |
+| `/query` | POST | Grounded answer with citations |
+| `/search` | POST | Retrieval only |
+| `/documents` | GET | Indexed documents |
 | `/documents/{id}/versions` | GET | Version history |
-| `/ingestion/run` | POST | Trigger ingestion |
-| `/ingestion/runs` | GET | Ingestion run history |
+| `/ingestion/run` | POST | Start an ingestion run |
+| `/ingestion/runs` | GET | Run history |
 | `/knowledge-gaps` | GET | Unanswered questions |
-| `/evaluations/run` | POST | Run evaluation |
-| `/analytics/summary` | GET | Usage analytics |
+| `/evaluations/run` | POST | Run the benchmark |
+| `/analytics/summary` | GET | Usage summary |
 | `/health` | GET | Health check |
-
-Example:
 
 ```bash
 curl -X POST http://localhost:8000/api/v1/query \
@@ -370,145 +107,84 @@ curl -X POST http://localhost:8000/api/v1/query \
   -d '{"query": "How many vacation days do employees get?", "user_group": "ENGINEERING"}'
 ```
 
----
+## Results recorded so far
 
-## CLI
+These numbers come from [BUILD_REPORT.md](BUILD_REPORT.md), dated 26 Aug 2026, when the models package still existed locally. They have **not** been re-run since and cannot be reproduced from this repository until the models are restored.
 
-```bash
-knowledgeops demo                          # 20-step case study demo
-knowledgeops ingest --source demo          # Run ingestion
-knowledgeops query "What is the VPN policy?" # Ask a question
-knowledgeops search "leave policy"           # Retrieval only
-knowledgeops documents                     # List documents
-knowledgeops gaps                          # List knowledge gaps
-knowledgeops evaluate --dataset main_eval  # Run evaluation
-knowledgeops benchmark                     # Performance benchmark
-knowledgeops status                        # System status
-knowledgeops api                           # Start FastAPI server
-```
+| What | Recorded value |
+| --- | --- |
+| Demo corpus | 40 documents, 662 chunks on first ingest |
+| Second ingest | 40 unchanged, 0 chunks re-embedded |
+| `main_eval` (60 questions, k = 5) | MRR 0.625, Hit Rate 0.633, Precision 0.573, Recall 0.633, NDCG 0.702 |
+| Quality gates | Hit Rate at 5 of at least 0.6 and MRR of at least 0.5, both passed |
+| Latency on CPU (3 runs) | Hybrid retrieval about 1.1 s, full query about 1.6 s |
+| Tests | 49 passed, 72% coverage |
 
----
+The answers in those runs came from the mock generator, so the evaluation measures retrieval quality, not answer quality.
 
-## Testing
+## Tests
 
 ```bash
-make test          # all tests
-make test-unit     # unit tests only
-make test-integration
-make test-e2e
-make lint          # ruff check
-make typecheck     # mypy
+make test         # or: make test-unit, make test-integration, make test-e2e
+make lint         # ruff
+make typecheck    # mypy
 ```
 
-| Result | Value |
-|---|---|
-| Tests passed | 49 |
-| Coverage | 72% |
+On 1 Nov 2026 the suite could not start: `tests/conftest.py` imports `app.db.models`. With the conftest skipped, 11 unit tests (citations, confidence, permissions) passed and the other 6 unit test files failed to import for the same reason. Ruff reports 13 issues, 12 of them auto fixable. The GitHub Actions workflow has been failing since September for the same reason.
 
----
+## Configuration
 
-## Docker
+| File | Purpose |
+| --- | --- |
+| `.env` (from `.env.example`) | Database and Qdrant URLs, provider choice (`EMBEDDING_PROVIDER`, `GENERATION_PROVIDER`, `RERANKING_PROVIDER`), Ollama URL, default user group |
+| `config/ingestion.yaml` | Sources, chunk size (512 tokens, 64 overlap), batch size |
+| `config/retrieval.yaml` | Top k values, fusion weight, confidence thresholds, quality gates |
 
-```bash
-make docker-build
-make docker-up     # starts app + postgres + qdrant
-make docker-down
+CI runs with `EMBEDDING_PROVIDER=mock`, `GENERATION_PROVIDER=mock`, `RERANKING_PROVIDER=none` and an in memory SQLite database, so no keys or downloads are needed for tests. Never put real API keys in `.env.example`.
+
+## Project structure
+
+```text
+app/
+  api/routes/       REST endpoints
+  cli/              Typer CLI
+  dashboard/        Jinja dashboard
+  db/               Session (models package missing, see above)
+  evaluation/       Metrics, runner, regression checks
+  generation/       Grounded answers, citations, confidence, mock and Ollama providers
+  ingestion/        Discovery, change detection, parsers, chunking, pipeline
+  knowledge_gaps/   Gap tracking
+  providers/        Embedding and reranking providers
+  repositories/     Data access
+  retrieval/        Dense, BM25, hybrid fusion, reranking, permissions
+  workflows/        Prefect flow
+config/             ingestion.yaml, retrieval.yaml
+demo_knowledge/     Demo documents (engineering, finance, HR)
+docs/decisions/     ADRs
+evals/datasets/     main_eval.json and baselines
+migrations/         Alembic (the schema is in 001_initial.py)
+scripts/            Demo, evaluation and benchmark scripts
+tests/              unit, integration, e2e
 ```
-
-| Service | Port | Notes |
-|---|---|---|
-| FastAPI app | 8000 | API + dashboard |
-| PostgreSQL | **15432** | Non-default to avoid local conflicts |
-| Qdrant | 6333 | REST API |
-
----
-
-## Project Structure
-
-```
-knowledgeops-rag-platform/
-├── app/
-│   ├── api/routes/          # REST endpoints
-│   ├── cli/                 # Typer CLI
-│   ├── dashboard/           # Web dashboard
-│   ├── db/models/           # SQLAlchemy models
-│   ├── evaluation/          # Metrics, runner, regression
-│   ├── generation/          # Grounded answers, citations
-│   ├── ingestion/           # Pipeline, parsers, chunking
-│   ├── knowledge_gaps/      # Gap tracking service
-│   ├── providers/           # Embedding/generation abstractions
-│   ├── repositories/        # Data access layer
-│   ├── retrieval/           # Hybrid search, permissions
-│   ├── schemas/             # Pydantic models
-│   └── workflows/           # Prefect flows
-├── config/
-│   ├── ingestion.yaml
-│   └── retrieval.yaml
-├── demo_knowledge/          # 40 demo documents
-├── docs/decisions/          # Architecture Decision Records
-├── evals/datasets/          # Evaluation data + baselines
-├── migrations/              # Alembic migrations
-├── scripts/                 # Demo, benchmark, evaluation
-├── tests/                   # unit, integration, e2e
-├── ARCHITECTURE.md
-├── BUILD_REPORT.md
-├── CASE_STUDY.md
-├── SECURITY.md
-├── docker-compose.yml
-├── Dockerfile
-└── Makefile
-```
-
----
-
-## Engineering Decisions
-
-Architecture Decision Records in [docs/decisions/](docs/decisions/):
-
-| ADR | Topic |
-|---|---|
-| [001](docs/decisions/001-qdrant-vector-store.md) | Qdrant as vector store |
-| [002](docs/decisions/002-hybrid-retrieval.md) | Hybrid dense + sparse retrieval |
-| [003](docs/decisions/003-provider-abstraction.md) | Provider abstraction |
-| [004](docs/decisions/004-document-versioning.md) | Content-hash versioning |
-| [005](docs/decisions/005-rag-quality-gates.md) | RAG quality gates |
-| [006](docs/decisions/006-permission-filtering.md) | Permission filtering |
-
----
 
 ## Limitations
 
-- No API authentication in v0.1 (group permissions simulated via parameters)
-- Default mock generation provider (swap to Ollama or commercial APIs for real LLM)
-- CPU-bound retrieval (~1.1 s hybrid search on local hardware)
-- 40-document demo corpus — not validated at enterprise scale
-- 2 Ruff lint warnings and 16 mypy errors remain (see [BUILD_REPORT.md](BUILD_REPORT.md))
+- No API authentication. User groups are passed as a parameter, so permission filtering is a simulation, not real access control. [SECURITY.md](SECURITY.md) covers this.
+- The default generator is a mock. Real answers need Ollama or another provider.
+- Retrieval runs on CPU and takes around a second.
+- Only tested on a 40 document demo corpus.
+- mypy reported 16 errors when last run.
 
----
+## What went wrong along the way
 
-## Future Improvements
+[FAILURES.md](FAILURES.md) covers what can go wrong, what actually broke, how it was fixed, and the results. [CASE_STUDY.md](CASE_STUDY.md) is the longer write up.
 
-- OIDC authentication with JWT group claims
-- Qdrant payload filters for permissions at query time
-- SharePoint, Google Drive, S3 source connectors
-- GPU-accelerated embedding and reranking
-- OpenTelemetry distributed tracing
-- Generation-quality evaluation with real LLM providers
-- Horizontal ingestion workers via Prefect agent pool
+## Status
 
----
+Not runnable from a fresh clone as of 1 Nov 2026 because `app/db/models` was never committed. The fix is to add that package back from the original working copy; the schema it must match is `migrations/versions/001_initial.py`. Once it is back, the next checks are: run the tests, confirm the recorded evaluation numbers, and get CI green.
 
-## Documentation
+## Licence
 
-| Document | Description |
-|---|---|
-| [CASE_STUDY.md](CASE_STUDY.md) | Professional engineering case study |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | System diagrams and flows |
-| [SECURITY.md](SECURITY.md) | Security considerations |
-| [BUILD_REPORT.md](BUILD_REPORT.md) | Implementation status and measured results |
+MIT. See [LICENSE](LICENSE).
 
----
-
-## License
-
-MIT — see [LICENSE](LICENSE).
+More of my work: https://cv.omnitest.dev/
