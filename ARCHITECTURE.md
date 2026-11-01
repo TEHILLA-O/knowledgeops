@@ -294,4 +294,4 @@ Default local PostgreSQL URL: `postgresql+asyncpg://knowledgeops:knowledgeops@lo
 | Generation | `GenerationProvider` | OpenAI, Anthropic |
 | Reranking | `RerankingProvider` | Cohere Rerank |
 
-See [docs/decisions/](decisions/) for architecture decision records.
+See [docs/decisions/](docs/decisions/) for architecture decision records.
