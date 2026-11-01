@@ -37,7 +37,7 @@ by March 31 of the following year or they expire.
 
 Submit requests in Workday at least five business days in advance for planned vacation.
 Manager approval is required. Teams should maintain minimum coverage of 70% during peak
-release windows (November, December and May, June).
+release windows (November–December and May–June).
 
 ## Sick Leave
 

@@ -37,7 +37,7 @@ to your manager, HR Business Partner, or the Ethics Hotline (1-800-ACME-ETH).
 
 ## Working Hours and Attendance
 
-Core collaboration hours are 10:00-16:00 in the employee's local time zone.
+Core collaboration hours are 10:00–16:00 in the employee's local time zone.
 Flexible scheduling is permitted with manager approval. Chronic absenteeism without
 approved leave may result in disciplinary action.
 

@@ -11,7 +11,7 @@ synthetic: true
 <!-- SYNTHETIC DOCUMENT FOR KNOWLEDGEOPS DEMO ONLY -->
 <!-- visibility: PUBLIC_INTERNAL | allowed_groups: [] -->
 
-# Acme Corp Leave Policy, Version 2.0 Reference Content
+# Acme Corp Leave Policy — Version 2.0 Reference Content
 
 **Policy Number:** ACM-POL-HR-003 | **Version:** 2.0 (DRAFT FOR DEMO UPDATE)
 
