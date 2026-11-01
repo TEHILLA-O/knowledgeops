@@ -21,10 +21,10 @@ Measured baseline on `main_eval` (60 questions) with hybrid retrieval enabled:
 
 Implement **hybrid retrieval** in `app/retrieval/hybrid.py`:
 
-1. **Dense retrieval** — Qdrant cosine search over `sentence-transformers/all-MiniLM-L6-v2` embeddings (`dense_top_k: 20`)
-2. **Sparse retrieval** — in-process BM25 over indexed chunk text (`sparse_top_k: 20`)
-3. **Score fusion** — min-max normalisation of dense and sparse scores, blended with configurable `hybrid_alpha` (default **0.5**)
-4. **Reranking** — cross-encoder reranker on fused candidates (`rerank_top_k: 8`, `context_top_k: 5`)
+1. **Dense retrieval**: Qdrant cosine search over `sentence-transformers/all-MiniLM-L6-v2` embeddings (`dense_top_k: 20`)
+2. **Sparse retrieval**: in-process BM25 over indexed chunk text (`sparse_top_k: 20`)
+3. **Score fusion**: min-max normalisation of dense and sparse scores, blended with configurable `hybrid_alpha` (default **0.5**)
+4. **Reranking**: cross-encoder reranker on fused candidates (`rerank_top_k: 8`, `context_top_k: 5`)
 
 Configuration lives in `config/retrieval.yaml` and is hot-readable via `Settings.retrieval_config`.
 
@@ -47,7 +47,7 @@ Configuration lives in `config/retrieval.yaml` and is hot-readable via `Settings
 
 **Negative**
 
-- Hybrid retrieval mean latency measured at **1099 ms** (3-iteration benchmark) — dominated by embedding + reranking on CPU
+- Hybrid retrieval mean latency measured at **1099 ms** (3-iteration benchmark): dominated by embedding + reranking on CPU
 - BM25 index rebuilt from Qdrant payloads; not optimised for very large corpora
 - Fusion normalisation can compress score dynamic range when candidate sets are small
 

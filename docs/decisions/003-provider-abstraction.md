@@ -31,7 +31,7 @@ Introduce provider abstractions in `app/providers/`:
 
 **Positive**
 
-- Zero-cost CI/CD pipeline — no API keys required
+- Zero-cost CI/CD pipeline, no API keys required
 - Embedding batch benchmark: **0.027 s** mean for 3-text batch (local provider)
 - Swapping providers is an environment change, not a code change
 - Mock generation enforces grounding rules deterministically in tests

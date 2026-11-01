@@ -221,7 +221,7 @@ flowchart LR
 | Recall @ 5 | 0.633 |
 | NDCG @ 5 | 0.702 |
 
-Quality gates: `hit_rate_at_5_min: 0.6`, `mrr_min: 0.5` — both passed.
+Quality gates: `hit_rate_at_5_min: 0.6`, `mrr_min: 0.5`: both passed.
 
 ---
 
@@ -250,7 +250,7 @@ Filtering occurs after reranking and before context construction. Verified in ca
 2. `run-ingestion-pipeline` task (retries: 1)
 3. Returns `IngestionRunSummary`
 
-Prefect server is not required for local operation — the flow can be invoked directly. A dedicated Prefect container was intentionally omitted from Docker Compose.
+Prefect server is not required for local operation, the flow can be invoked directly. A dedicated Prefect container was intentionally omitted from Docker Compose.
 
 ---
 

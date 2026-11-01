@@ -69,9 +69,9 @@ pytest tests/ -v --tb=short
 
 Test suites:
 
-- `tests/unit/` — parsers, chunking, metrics, permissions, confidence
-- `tests/integration/` — ingestion pipeline, retrieval, evaluation
-- `tests/e2e/` — API endpoints, query flow
+- `tests/unit/`: parsers, chunking, metrics, permissions, confidence
+- `tests/integration/`: ingestion pipeline, retrieval, evaluation
+- `tests/e2e/`: API endpoints, query flow
 
 ---
 
@@ -81,7 +81,7 @@ Test suites:
 |---|---|---|
 | **Ruff check** | ⚠️ 2 issues | Unused import in `evaluation/runner.py`; B008 in `scripts/run_evaluation.py` |
 | **Ruff format** | ✅ Pass | (when run with `--check`) |
-| **mypy** | ⚠️ 16 errors | 9 files — primarily CLI untyped defs and repository method stubs |
+| **mypy** | ⚠️ 16 errors | 9 files, primarily CLI untyped defs and repository method stubs |
 
 Lint and type issues are non-blocking for demo operation. Recommended cleanup before production hardening.
 
@@ -89,7 +89,7 @@ Lint and type issues are non-blocking for demo operation. Recommended cleanup be
 
 ## Demo Results
 
-Case-study demo (`make demo` / `knowledgeops demo`) — 20 steps verified:
+Case-study demo (`make demo` / `knowledgeops demo`): 20 steps verified:
 
 | Scenario | Status |
 |---|---|
@@ -111,16 +111,16 @@ Case-study demo (`make demo` / `knowledgeops demo`) — 20 steps verified:
 
 ## Evaluation Results
 
-**Dataset:** `main_eval` — 60 questions  
+**Dataset:** `main_eval`: 60 questions  
 **Top-k:** 5
 
 | Metric | Value | Quality Gate |
 |---|---|---|
 | MRR | **0.625** | ≥ 0.5 ✅ |
 | Hit Rate @ 5 | **0.633** | ≥ 0.6 ✅ |
-| Precision @ 5 | **0.573** | — |
-| Recall @ 5 | **0.633** | — |
-| NDCG @ 5 | **0.702** | — |
+| Precision @ 5 | **0.573** | none |
+| Recall @ 5 | **0.633** | none |
+| NDCG @ 5 | **0.702** | none |
 
 Baseline saved to `evals/datasets/baseline_metrics.json`.
 
@@ -189,35 +189,35 @@ GitHub Actions (`.github/workflows/ci.yml`):
 | `test` | unit, integration, e2e |
 | `docker` | multi-stage image build |
 
-CI uses mock providers — no paid API keys required.
+CI uses mock providers, no paid API keys required.
 
 ---
 
 ## Known Limitations
 
-1. **No API authentication** — group-based permissions are simulated via request parameters
-2. **Mock generation provider** — default; does not reflect real LLM latency or failure modes
-3. **CPU-bound retrieval** — 1099 ms hybrid retrieval on local hardware
-4. **BM25 in-process** — not persisted in Qdrant sparse index
-5. **mypy strict mode** — 16 remaining type errors, mostly in CLI layer
-6. **Ruff** — 2 lint warnings in evaluation scripts
-7. **Single-node deployment** — no horizontal scaling or queue-based ingestion workers
-8. **Demo corpus only** — 40 synthetic Acme Corp documents, not production data
+1. **No API authentication**: group-based permissions are simulated via request parameters
+2. **Mock generation provider**: default; does not reflect real LLM latency or failure modes
+3. **CPU-bound retrieval**: 1099 ms hybrid retrieval on local hardware
+4. **BM25 in-process**: not persisted in Qdrant sparse index
+5. **mypy strict mode**: 16 remaining type errors, mostly in CLI layer
+6. **Ruff**: 2 lint warnings in evaluation scripts
+7. **Single-node deployment**: no horizontal scaling or queue-based ingestion workers
+8. **Demo corpus only**: 40 synthetic Acme Corp documents, not production data
 
 ---
 
 ## Production Recommendations
 
-1. **Authentication** — OIDC/JWT with group claims mapped to `allowed_groups`
-2. **Push permission filters to Qdrant** — avoid retrieving restricted vectors
-3. **Commercial LLM provider** — OpenAI or Anthropic behind `GenerationProvider`
-4. **GPU inference** — for embedding and reranking latency reduction
-5. **Secrets manager** — replace `.env` file credentials
-6. **Observability** — OpenTelemetry traces across ingestion and query paths
-7. **Rate limiting** — protect `/api/v1/query` from abuse
-8. **Resolve mypy/ruff issues** — enforce clean CI before production deploy
-9. **Backup strategy** — coordinated PostgreSQL + Qdrant snapshots
-10. **Horizontal scaling** — separate ingestion workers via Prefect agent pool
+1. **Authentication**: OIDC/JWT with group claims mapped to `allowed_groups`
+2. **Push permission filters to Qdrant**: avoid retrieving restricted vectors
+3. **Commercial LLM provider**: OpenAI or Anthropic behind `GenerationProvider`
+4. **GPU inference**: for embedding and reranking latency reduction
+5. **Secrets manager**: replace `.env` file credentials
+6. **Observability**: OpenTelemetry traces across ingestion and query paths
+7. **Rate limiting**: protect `/api/v1/query` from abuse
+8. **Resolve mypy/ruff issues**: enforce clean CI before production deploy
+9. **Backup strategy**: coordinated PostgreSQL + Qdrant snapshots
+10. **Horizontal scaling**: separate ingestion workers via Prefect agent pool
 
 ---
 

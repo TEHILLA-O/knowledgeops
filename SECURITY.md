@@ -65,7 +65,7 @@ The system prompt requires the model to refuse when evidence is insufficient. Th
 
 ### Confidence scoring
 
-`ConfidenceScorer` derives confidence from retrieval strength, reranker scores, grounding overlap, and agreement — not from LLM self-assessment alone. Scores below `insufficient_threshold` (0.35) trigger refusal behaviour and knowledge-gap creation.
+`ConfidenceScorer` derives confidence from retrieval strength, reranker scores, grounding overlap, and agreement, not from LLM self-assessment alone. Scores below `insufficient_threshold` (0.35) trigger refusal behaviour and knowledge-gap creation.
 
 ### Citations
 
@@ -105,7 +105,7 @@ Indexed documents are untrusted input to the LLM. An attacker with document uplo
 **Rules:**
 
 - Never commit `.env` (listed in `.gitignore`)
-- Use `.env.example` for documentation only — no real secrets
+- Use `.env.example` for documentation only, no real secrets
 - Rotate `SECRET_KEY` and database passwords before any public deployment
 - In production, use a secrets manager (AWS Secrets Manager, Vault, Azure Key Vault)
 
@@ -143,7 +143,7 @@ Docker Compose uses default credentials (`knowledgeops:knowledgeops`) suitable f
 
 - Supported extensions: `.pdf`, `.docx`, `.md`, `.txt`, `.html`
 - `max_file_size_mb: 50` in `config/ingestion.yaml`
-- Parsers use established libraries (PyMuPDF, python-docx, BeautifulSoup) — keep updated
+- Parsers use established libraries (PyMuPDF, python-docx, BeautifulSoup): keep updated
 
 **Recommendations:**
 

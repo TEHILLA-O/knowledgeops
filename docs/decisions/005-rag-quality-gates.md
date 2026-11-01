@@ -7,15 +7,15 @@
 
 RAG systems degrade silently when chunking, retrieval, or embedding configuration changes. KnowledgeOps needs deterministic evaluation, baseline comparison, and CI-friendly quality gates that do not require paid LLM APIs.
 
-The `main_eval` dataset contains **60 questions** spanning HR, IT, security, finance, procurement, operations, and engineering topics — including questions that should refuse (out-of-scope).
+The `main_eval` dataset contains **60 questions** spanning HR, IT, security, finance, procurement, operations, and engineering topics, including questions that should refuse (out-of-scope).
 
 ## Decision
 
 Implement evaluation in `app/evaluation/`:
 
-1. **Metrics** (`metrics.py`) — MRR, Hit Rate@k, Precision@k, Recall@k, NDCG@k
-2. **Runner** (`runner.py`) — executes retrieval against dataset, persists results to PostgreSQL
-3. **Regression** (`regression.py`) — compares candidate run against `evals/datasets/baseline_metrics.json` with configurable tolerance
+1. **Metrics** (`metrics.py`): MRR, Hit Rate@k, Precision@k, Recall@k, NDCG@k
+2. **Runner** (`runner.py`): executes retrieval against dataset, persists results to PostgreSQL
+3. **Regression** (`regression.py`): compares candidate run against `evals/datasets/baseline_metrics.json` with configurable tolerance
 4. **Quality gates** (`config/retrieval.yaml`):
 
 ```yaml
@@ -31,9 +31,9 @@ Baseline metrics (measured):
 |---|---|---|
 | MRR | 0.625 | ≥ 0.5 ✓ |
 | Hit Rate @ 5 | 0.633 | ≥ 0.6 ✓ |
-| Precision @ 5 | 0.573 | — |
-| Recall @ 5 | 0.633 | — |
-| NDCG @ 5 | 0.702 | — |
+| Precision @ 5 | 0.573 | none |
+| Recall @ 5 | 0.633 | none |
+| NDCG @ 5 | 0.702 | none |
 
 ## Alternatives Considered
 
@@ -55,7 +55,7 @@ Baseline metrics (measured):
 **Negative**
 
 - Retrieval-only evaluation does not measure answer correctness from generation
-- Dataset maintenance burden — 60 questions must stay aligned with `demo_knowledge` content
+- Dataset maintenance burden, 60 questions must stay aligned with `demo_knowledge` content
 - Tolerance of 0.05 may be too loose or tight depending on dataset size
 
 **Follow-up**

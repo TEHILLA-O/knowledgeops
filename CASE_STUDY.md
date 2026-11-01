@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-KnowledgeOps is a self-maintaining retrieval-augmented generation (RAG) platform designed to automate the full lifecycle of an internal knowledge base — from document discovery and incremental indexing through hybrid retrieval, grounded answer generation, and systematic tracking of unanswered questions.
+KnowledgeOps is a self-maintaining retrieval-augmented generation (RAG) platform designed to automate the full lifecycle of an internal knowledge base, from document discovery and incremental indexing through hybrid retrieval, grounded answer generation, and systematic tracking of unanswered questions.
 
 Unlike a basic "upload a PDF and chat" tutorial, KnowledgeOps demonstrates production-oriented engineering: content-hash change detection, document versioning, permission-aware retrieval, deterministic evaluation with regression baselines, and knowledge-gap automation that turns failed searches into actionable intelligence.
 
@@ -19,7 +19,7 @@ Traditional approaches fail in predictable ways:
 - **Static chatbots** go stale when documents update
 - **Manual RAG pipelines** re-embed everything on every run, wasting compute
 - **Ungoverned retrieval** leaks restricted content across departments
-- **No feedback loop** — failed searches disappear instead of driving content improvements
+- **No feedback loop**: failed searches disappear instead of driving content improvements
 
 KnowledgeOps addresses these gaps with an automated knowledge lifecycle.
 
@@ -41,11 +41,11 @@ KnowledgeOps addresses these gaps with an automated knowledge lifecycle.
 
 The platform follows a layered architecture:
 
-- **Ingestion layer** — discover, parse, clean, chunk, embed, index
-- **Storage layer** — PostgreSQL (metadata, versions, audit) + Qdrant (vectors)
-- **Retrieval layer** — dense + BM25 hybrid, reranking, permission filter
-- **Generation layer** — grounded answers, citations, confidence scoring
-- **Intelligence layer** — knowledge gaps, evaluation, analytics
+- **Ingestion layer**: discover, parse, clean, chunk, embed, index
+- **Storage layer**: PostgreSQL (metadata, versions, audit) + Qdrant (vectors)
+- **Retrieval layer**: dense + BM25 hybrid, reranking, permission filter
+- **Generation layer**: grounded answers, citations, confidence scoring
+- **Intelligence layer**: knowledge gaps, evaluation, analytics
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed Mermaid diagrams.
 
@@ -73,9 +73,9 @@ The zero re-index on the second run validates that content-hash change detection
 
 Every ingestion run classifies documents as NEW, UNCHANGED, MODIFIED, or DELETED:
 
-- **UNCHANGED** — skip parsing, chunking, and embedding entirely
-- **MODIFIED** — re-chunk and re-embed only affected content; increment version
-- **DELETED** — remove Qdrant vectors; retain audit trail in PostgreSQL
+- **UNCHANGED**: skip parsing, chunking, and embedding entirely
+- **MODIFIED**: re-chunk and re-embed only affected content; increment version
+- **DELETED**: remove Qdrant vectors; retain audit trail in PostgreSQL
 
 The case-study demo modifies `hr/leave-policy.md` (sick leave 10 → 12 days), re-runs ingestion, and confirms only the changed document is re-processed.
 
@@ -94,7 +94,7 @@ Default strategy: **sentence-aware chunking** with heading preservation.
 
 Alternative strategies (fixed token, section-aware) are available for evaluation experiments. Metadata (section, page, version) survives chunking and is attached to every Qdrant payload.
 
-662 chunks from 40 documents averages ~16.5 chunks per document — appropriate for policy-length markdown files.
+662 chunks from 40 documents averages ~16.5 chunks per document, appropriate for policy-length markdown files.
 
 ---
 
@@ -103,7 +103,7 @@ Alternative strategies (fixed token, section-aware) are available for evaluation
 - **Model:** `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions)
 - **Provider:** Local `sentence-transformers` (no API cost)
 - **Batch size:** 32 chunks per batch
-- **Cache key:** chunk content hash — unchanged chunks skip re-embedding
+- **Cache key:** chunk content hash, unchanged chunks skip re-embedding
 
 Embedding batch benchmark: **0.027 s** mean for a 3-text batch (3 iterations).
 
@@ -124,7 +124,7 @@ Hybrid retrieval latency: **1099 ms** mean. This is the primary latency contribu
 
 ## Reranking
 
-A local cross-encoder reranker re-scores fused candidates. Both retrieval and rerank scores are stored on each `RetrievedChunk` for debug visibility. Reranking improves precision at the cost of latency — an expected tradeoff documented in the benchmark results.
+A local cross-encoder reranker re-scores fused candidates. Both retrieval and rerank scores are stored on each `RetrievedChunk` for debug visibility. Reranking improves precision at the cost of latency, an expected tradeoff documented in the benchmark results.
 
 ---
 
@@ -144,7 +144,7 @@ The context builder (`app/retrieval/context_builder.py`) does not blindly pass a
 
 The system prompt enforces a core rule: if evidence does not support an answer, the model must refuse. The default mock provider returns structured responses with `knowledge_gap` flags for insufficient evidence.
 
-Generation providers are abstracted — swap to Ollama or commercial APIs via environment configuration.
+Generation providers are abstracted, swap to Ollama or commercial APIs via environment configuration.
 
 ---
 
@@ -182,11 +182,11 @@ When confidence is insufficient, the system refuses and creates a knowledge-gap 
 
 Multiple layers reduce hallucination risk:
 
-1. **Retrieval-first** — answers must be supported by retrieved chunks
-2. **Grounding check** — token overlap between answer and evidence
-3. **Confidence gating** — refuse below threshold
-4. **Citation enforcement** — sources traceable to indexed content
-5. **Knowledge-gap path** — explicit "insufficient evidence" instead of guessing
+1. **Retrieval-first**: answers must be supported by retrieved chunks
+2. **Grounding check**: token overlap between answer and evidence
+3. **Confidence gating**: refuse below threshold
+4. **Citation enforcement**: sources traceable to indexed content
+5. **Knowledge-gap path**: explicit "insufficient evidence" instead of guessing
 
 ---
 
@@ -199,7 +199,7 @@ When retrieval confidence is low, no useful chunks are found, or the generator r
 - Best retrieval score achieved
 - Status (UNRESOLVED by default)
 
-The demo asks "What is the company's policy on Mars colonization subsidies?" — the system correctly refuses and records a gap. This transforms failed searches into content-creation priorities.
+The demo asks "What is the company's policy on Mars colonization subsidies?", the system correctly refuses and records a gap. This transforms failed searches into content-creation priorities.
 
 ---
 
@@ -305,18 +305,18 @@ See [docs/decisions/](docs/decisions/) for full ADRs.
 | Incremental ingestion | 40 unchanged, 0 re-indexed on second run |
 | Retrieval quality | MRR 0.625, Hit@5 0.633, NDCG@5 0.702 |
 | Quality gates | Passed |
-| Demo scenarios | Version change, deletion sync, knowledge gaps, permissions — all verified |
+| Demo scenarios | Version change, deletion sync, knowledge gaps, permissions, all verified |
 | Test suite | 49 passed, 72% coverage |
 
 ---
 
 ## Limitations
 
-- No real authentication — group permissions are simulated
+- No real authentication, group permissions are simulated
 - Mock generation provider by default
 - CPU-bound retrieval latency (~1.1 s)
-- 40-document demo corpus — not tested at enterprise scale
-- Retrieval evaluation only — does not measure generation answer correctness with real LLMs
+- 40-document demo corpus, not tested at enterprise scale
+- Retrieval evaluation only, does not measure generation answer correctness with real LLMs
 
 ---
 
